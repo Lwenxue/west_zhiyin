@@ -25,7 +25,7 @@
 	  flex: 1; /* 将左右两部分平均占据容器的剩余空间 */
 	}
 	h1{
-		text-align:center;
+		text-align: center;
 	}
 	/* 定义画布的样式 */
 	.canvas {
@@ -76,26 +76,14 @@
 	  margin: 0 auto;
 	  text-align: center;
 	}
-
 	.slide {
-	  position: absolute; /* 设置定位为绝对定位 */
-	  width: 100%;
-	  height: 100%;
-	  opacity: 0;
-	  transition: opacity 0.5s ease-in-out;
-	  cursor: pointer;
-	}
-
-	.slide.active {
-	  opacity: 1;
-	}
-
-	.slide img {
-	  width: 100%;
-	  height: 100%;
-	  margin: 50px auto; /* 调整上下边距并使其垂直居中 */
-	  object-fit: cover; /* 图片填充容器 */
-	}
+	      position: absolute;
+	      top: 0;
+	      left: 0;
+	      width: 100%;
+	      height: 100%;
+	      object-fit: cover;
+	    }
 	/*跳转按钮*/
 	.button1 {
 		  background-color: #00e36e; 
@@ -153,36 +141,7 @@
 	    <button class="button2">点击进入景点介绍</button>
 	  </a>
       <div class="slideshow-container">
-        <div class="slide active">
-          <img src="img/dqcx.jpg">
-        </div>
-        <div class="slide">
-          <img src="img/phqy.jpg">
-        </div>
-        <div class="slide">
-          <img src="img/stcx.jpg">
-        </div>
-        <div class="slide">
-          <img src="img/qyfh.jpg">
-        </div>
-        <div class="slide">
-          <img src="img/sfcy.jpg">
-        </div>
-        <div class="slide">
-          <img src="img/hggy.jpg">
-        </div>
-        <div class="slide">
-          <img src="img/styy.jpg">
-        </div>
-        <div class="slide">
-          <img src="img/npwz.jpg">
-        </div>
-        <div class="slide">
-          <img src="img/lfxz.jpg">
-        </div>
-        <div class="slide">
-          <img src="img/llwy.jpg">
-        </div>
+          <img id="slide" class="slide" src="img/dqcx.jpg">
       </div>
     </div>
   </div>
@@ -256,10 +215,7 @@
         var vy = Math.sin(angle) * speed;
 
         // 更新人物的位置
-        x += vx
-		
-		
-		;
+        x += vx;
         y += vy;
 
         // 更新小人的位置
@@ -273,52 +229,66 @@
       // 调用动画函数
       animate();
     };
-
-    // 切屏动画
-    var slides = document.getElementsByClassName("slide");
-    var currentSlide = 0;
-
-    function showSlide(n) {
-      if (n >= slides.length) {
-        currentSlide = 0;
-      } else if (n < 0) {
-        currentSlide = slides.length - 1;
-      }
-
-      for (var i = 0; i < slides.length; i++) {
-        slides[i].classList.remove("active");
-      }
-
-      slides[currentSlide].classList.add("active");
-    }
-
-    function nextSlide() {
-      showSlide(currentSlide + 1);
-    }
-    // 绑定点击事件
-    for (var i = 0; i < slides.length; i++) {
-      slides[i].addEventListener("click", function() {
-        var currentActiveSlide = document.querySelector(".slide.active");
-        var nextActiveSlide = currentActiveSlide.nextElementSibling;
-
-        // 如果当前显示的图片是最后一张，则切换到第一张图片
-        if (!nextActiveSlide) {
-          nextActiveSlide = slides[0];
-        }
-
-        currentActiveSlide.style.opacity = 0;
-        nextActiveSlide.style.opacity = 1;
-
-        currentSlide = Array.prototype.indexOf.call(slides, nextActiveSlide);
-
-        // 清除之前的定时器
-        clearInterval(slideInterval);
-
-        // 重新启动定时器
-        slideInterval = setInterval(nextSlide, 1000);
-      });
-    }
-    var slideInterval = setInterval(nextSlide, 1000); // 每秒切换下一张图
+	// 获取左侧图片元素
+	var leftBackground = document.querySelector('.left');
+	
+	// 获取右侧图片元素
+	var rightImage = document.getElementById("slide");
+	
+	// 定义图片列表
+	var images = [
+	  "img/phqy.jpg",
+	  "img/stcx.jpg",
+	  "img/qyfh.jpg",
+	  "img/sfcy.jpg",
+	  "img/hggy.jpg",
+	  "img/styy.jpg",
+	  "img/npwz.jpg",
+	  "img/lfxz.jpg",
+	  "img/llwy.jpg",
+	  "img/dqcx.jpg"
+	];
+	
+	// 给左侧图片绑定点击事件，切换右侧图片
+	leftBackground.addEventListener('click', function(event) {
+	  // 获取点击位置相对于左侧图片的坐标
+	  var x = event.offsetX;
+	  var y = event.offsetY;
+	
+	  // 判断点击的区域
+	  if( x>400 && x < 650 && y>150 && y <250) {
+	    // 点击第一个区域，切换右侧图片为图片1
+	    rightImage.src = images[0]; 
+	   } else if ( x>250 && x <300 && y>100 && y <500) {
+	    // 点击第二个区域，切换右侧图片为图片2
+	     rightImage.src = images[1];
+	   }  else if ( x>200 && x <350 && y>100 && y <250) {
+	    // 点击第二个区域，切换右侧图片为图片3
+	     rightImage.src = images[2];
+	   }  else if ( x>20 && x <200 && y>100 && y <260) {
+	    // 点击第二个区域，切换右侧图片为图片4
+	     rightImage.src = images[3];
+	   }  else if ( x>180 && x <280 && y>450 && y <550) {
+	    // 点击第二个区域，切换右侧图片为图片5
+	     rightImage.src = images[4];
+	   }  else if ( x>350 && x <650 && y>250 && y <400) {
+	    // 点击第二个区域，切换右侧图片为图片6
+	     rightImage.src = images[5];
+	   }  else if ( x>600 && x <680 && y>600 && y <690) {
+	    // 点击第二个区域，切换右侧图片为图片7
+	     rightImage.src = images[6];
+	   }  else if ( x>450 && x <550 && y>550 && y <690) {
+	    // 点击第二个区域，切换右侧图片为图片8
+	     rightImage.src = images[7];
+	   }  else if ( x>400 && x <700 && y>410 && y <520) {
+	    // 点击第二个区域，切换右侧图片为图片9
+	     rightImage.src = images[8];
+	   }  else if ( x>300 && x <550 && y>80 && y <150) {
+	    // 点击第二个区域，切换右侧图片为图片10
+	     rightImage.src = images[9];
+	   } 
+	
+	});
   </script>
 </body>
 </html>
